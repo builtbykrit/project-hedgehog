@@ -155,7 +155,14 @@ export default {
       'signup',
     ]),
     inputIsInvalid(field, value) {
-      // TODO
+      const requiredFields = ['firstName', 'lastName', 'emailAddress', 'password']
+
+      if (requiredFields.includes(field)) {
+        // check the required field
+
+        return !Boolean(value)
+      }
+
       return false;
     },
     signupButtonPressed() {
