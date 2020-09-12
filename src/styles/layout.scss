@@ -1,0 +1,27 @@
+@import "~@/styles/variables.scss";
+
+body {
+  font-family: $base-font-family;
+}
+
+.container {
+  padding: 0 1rem;
+  margin: 0 auto;
+  box-sizing: border-box;
+  max-width: 1400px;
+}
+
+.grid-container {
+  display: inline-grid;
+  grid-gap: 1rem;
+  width: 100%;
+
+  &.one {
+    grid-template-columns: 1fr;
+  }
+
+  &.one-one {
+    grid-template-columns: 1fr 1fr;
+  }
+
+}

@@ -1,9 +1,11 @@
 <template>
   <div
-      @mouseover="hover = true"
-      @mouseleave="hover = false"
-    class="relative w-full">
-    <template>
+    @mouseover="hover = true"
+    @mouseleave="hover = false"
+    class="input-wrapper"
+    :class="{'text-input-wrapper': ['text', 'password'].includes(type)}">
+      <template v-if="type !== 'checkbox'">
+      <label class="input__label">{{ label }}</label>
       <input
         :disabled="disabled"
         autocomplete="disabled"
@@ -20,14 +22,27 @@
         ]"
         :value="value"
         :placeholder="placeholder"
-        :maxlength="maxLength"/>
-      <label class="input__label">{{ label }}</label>
+        :maxlength="maxLength"
+      />
     </template>
+    <div class="checkbox" v-else-if="type === 'checkbox'">
+      <input
+        v-model="checked"
+        @change="updateInputValue()"
+        type="checkbox"
+        class="checkbox-input"
+        :name="name"
+        :id="name">
+      <label class="checkbox-label" :for="name">
+        {{ label }}
+      </label>
+    </div>
   </div>
 </template>
 <script>
+
 export default {
-  name: 'Input',
+  name: "Input",
   data() {
     return {
       hover: false,
@@ -45,20 +60,26 @@ export default {
      */
     placeholder: {
       type: String,
-      default: '',
-    },
-    /**
-     * Input type. Can be changed to password or email, for instance
-     */
-    type: {
-      type: String,
-      default: 'text',
+      default: "",
     },
     /**
      * The value for the text input
      */
     value: {
+      type: [String, Boolean],
+    },
+    /**
+     * The value for the text input
+     */
+    checked: {
+      type: [Boolean],
+    },
+    /**
+     * The type of input
+     */
+    type: {
       type: String,
+      default: 'text'
     },
     /**
      * The value for the checkbox input
@@ -71,14 +92,6 @@ export default {
      */
     label: {
       type: String,
-      required: true,
-    },
-    /**
-     * The text that appears on hover
-     */
-    tooltipText: {
-      type: String,
-      required: false,
     },
     /**
      * Determines whether a field is invalid and should display differently (e.g. a red border)
@@ -93,13 +106,6 @@ export default {
     maxLength: {
       type: Number,
       default: 524288,
-    },
-    /**
-     * If set to true, input value will be set to uppercase
-     */
-    uppercase: {
-      type: Boolean,
-      default: false,
     },
     /**
      * If a side effect needs to be called on change
@@ -121,13 +127,13 @@ export default {
       if (this.uppercase) {
         this.$refs.input.value = this.$refs.input.value.toUpperCase();
       }
-      this.$emit('input', this.$refs.input.value);
+      this.$emit("input", this.$refs.input.value);
       if (this.onInputChange) {
         this.onInputChange(this.$refs.input.value);
       }
     },
     updateInputValue() {
-      this.$emit('updatedCheckbox', this.checked);
+      this.$emit("updatedCheckbox", this.checked);
     },
   },
   mounted() {
@@ -140,3 +146,39 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+  @import "~@/styles/variables.scss";
+  .input__label {
+    display: block;
+  }
+
+  .input-wrapper {
+    margin: 0.5rem 0;
+  }
+
+  .text-input-wrapper {
+    min-height: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .input {
+    margin: 0.25rem 0;
+    border-radius: 6px;
+    border: 1px solid $grey-light;
+    height: 32px;
+    margin-bottom: 0.35rem;
+    outline: none;
+    padding: 4px;
+    transition: $transition;
+
+    &--invalid {
+      border: 1px solid $red;
+    }
+  }
+
+  .checkbox {
+    height: 32px;
+  }
+</style>
