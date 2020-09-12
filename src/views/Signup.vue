@@ -16,7 +16,6 @@
               :value="signUpRequest.teamName"
             />
             <Input
-              class="half-field-wrapper"
               name="firstName"
               placeholder="First Name"
               label="What is your name?"
@@ -24,7 +23,6 @@
               :value="signUpRequest.firstName"
             />
             <Input
-              class="half-field-wrapper"
               name="lastName"
               placeholder="Last Name"
               :invalid="inputIsInvalid(signUpRequest.lastName)"
@@ -52,7 +50,6 @@
           <div v-else>
             <div class="grid-container one-one">
               <Input
-                class="half-field-wrapper"
                 name="firstName"
                 placeholder="First Name"
                 label="What is your name?"
@@ -60,7 +57,6 @@
                 :value="signUpRequest.firstName"
               />
               <Input
-                class="half-field-wrapper"
                 name="lastName"
                 placeholder="Last Name"
                 :invalid="inputIsInvalid(signUpRequest.lastName)"
